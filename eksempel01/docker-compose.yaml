@@ -1,6 +1,3 @@
-docker compose
-docker-compose
-
 services:
     webtjeneste:
         image: nginx
