@@ -1,0 +1,9 @@
+docker compose
+docker-compose
+
+services:
+    webtjeneste:
+        image: nginx
+        ports: 
+         - "8080:80"
+        restart: always
