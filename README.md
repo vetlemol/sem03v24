@@ -13,3 +13,7 @@ services:
         ports: 
          - "8080:80" //det er denne porten nginx skal kjøre på
         restart: always //sørger for at nginx alltid prøver å restarte hvis den går ned
+
+
+//docker compose up //dette starter docker compose og kjører det
+//localhost.8080 //dette er adressen som docker compose har laget for oss, skrives rett inn i nettleseren
