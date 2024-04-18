@@ -1,24 +1,34 @@
-FROM ubuntu:24.04
-RUN apt-get update -y \
-&& apt-get dist-upgrade -y \
-&& apt-get autoremove -y \
-&& apt-get autoclean -y \
-&& apt-get install -y \
-curl \
-git
-RUN curl -SL https://go.dev/dl/go1.22.2.linux-amd64.tar.gz \
-| tar xvz -C /usr/local
+FROM ubuntu:20.04
+
+RUN apt-get update && \
+    apt-get install -y \
+    curl \
+    git \
+    tar && \
+    apt-get dist-upgrade -y && \
+    apt-get autoremove -y && \
+    apt-get autoclean -y
+
+RUN curl -SL https://golang.org/dl/go1.17.6.linux-amd64.tar.gz | tar -xz -C /usr/local
+
 ENV GOPATH /go
 ENV PATH $GOPATH/bin:/usr/local/go/bin:$PATH
-RUN mkdir -p "$GOPATH/src" "$GOPATH/bin" && chmod -R 1777 "$GOPATH"
+
+RUN mkdir -p "$GOPATH/src" "$GOPATH/bin" && chmod -R 755 "$GOPATH"
+
 WORKDIR $GOPATH/src
-RUN git clone https://github.com/uia-worker/is105-2024-April.git \
-&& cd is105-2024-April \
-&& go build -o $GOPATH/bin simplest-webserver.go
+
+RUN git clone https://github.com/uia-worker/is105-2024-April.git && \
+    cd is105-2024-April && \
+    go build -o $GOPATH/bin simplest-webserver.go
+
 ENV SERVICE_NAME="simplest-webserver"
-RUN addgroup --gid 900 --system $SERVICE_NAME \
-&& adduser --system --ingroup $SERVICE_NAME --shell /bin/false --uid 900
+
+RUN addgroup --gid 2000 --system $SERVICE_NAME && \
+    adduser --system --ingroup $SERVICE_NAME --shell /bin/false --uid 2000 $SERVICE_NAME
 
 EXPOSE 8088
+
 USER $SERVICE_NAME
+
 CMD ["simplest-webserver"]
