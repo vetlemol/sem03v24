@@ -17,3 +17,8 @@ services:
 
 //docker compose up //dette starter docker compose og kjører det
 //localhost.8080 //dette er adressen som docker compose har laget for oss, skrives rett inn i nettleseren
+
+
+volumes: 
+          - './html:/var/www/html'
+          - './nginx-conf:/etc/nginx/nginx.conf' //stod tidligere nginx/conf.d
